@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CertSYSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fornecedor">
+          <Key>
+            <PropertyRef Name="for_cod" />
+          </Key>
+          <Property Name="for_cod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="for_nome" Type="varchar" MaxLength="95" />
+          <Property Name="for_cnpj" Type="varchar" MaxLength="95" />
+          <Property Name="for_endereco" Type="varchar" MaxLength="95" />
+        </EntityType>
+        <EntityType Name="produto">
+          <Key>
+            <PropertyRef Name="pro_cod" />
+          </Key>
+          <Property Name="pro_cod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_nome" Type="varchar" MaxLength="95" />
+          <Property Name="pro_qtde" Type="float" />
+          <Property Name="for_cod" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="usu_cod" />
+          </Key>
+          <Property Name="usu_cod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usu_nome" Type="varchar" MaxLength="95" />
+          <Property Name="usu_login" Type="varchar" MaxLength="15" />
+          <Property Name="usu_senha" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <Association Name="FK_produto_fornecedor_for_cod">
+          <End Role="fornecedor" Type="Self.fornecedor" Multiplicity="1" />
+          <End Role="produto" Type="Self.produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fornecedor">
+              <PropertyRef Name="for_cod" />
+            </Principal>
+            <Dependent Role="produto">
+              <PropertyRef Name="for_cod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CertSYSModelStoreContainer">
+          <EntitySet Name="fornecedor" EntityType="Self.fornecedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produto" EntityType="Self.produto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_produto_fornecedor_for_cod" Association="Self.FK_produto_fornecedor_for_cod">
+            <End Role="fornecedor" EntitySet="fornecedor" />
+            <End Role="produto" EntitySet="produto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CertSYSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="fornecedor">
+          <Key>
+            <PropertyRef Name="for_cod" />
+          </Key>
+          <Property Name="for_cod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="for_nome" Type="String" MaxLength="95" FixedLength="false" Unicode="false" />
+          <Property Name="for_cnpj" Type="String" MaxLength="95" FixedLength="false" Unicode="false" />
+          <Property Name="for_endereco" Type="String" MaxLength="95" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="produto" Relationship="Self.FK_produto_fornecedor_for_cod" FromRole="fornecedor" ToRole="produto" />
+        </EntityType>
+        <EntityType Name="produto">
+          <Key>
+            <PropertyRef Name="pro_cod" />
+          </Key>
+          <Property Name="pro_cod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_nome" Type="String" MaxLength="95" FixedLength="false" Unicode="false" />
+          <Property Name="pro_qtde" Type="Double" />
+          <Property Name="for_cod" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="fornecedor" Relationship="Self.FK_produto_fornecedor_for_cod" FromRole="produto" ToRole="fornecedor" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="usu_cod" />
+          </Key>
+          <Property Name="usu_cod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usu_nome" Type="String" MaxLength="95" FixedLength="false" Unicode="false" />
+          <Property Name="usu_login" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="usu_senha" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_produto_fornecedor_for_cod">
+          <End Role="fornecedor" Type="Self.fornecedor" Multiplicity="1" />
+          <End Role="produto" Type="Self.produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fornecedor">
+              <PropertyRef Name="for_cod" />
+            </Principal>
+            <Dependent Role="produto">
+              <PropertyRef Name="for_cod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CertSYSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="fornecedor" EntityType="Self.fornecedor" />
+          <EntitySet Name="produto" EntityType="Self.produto" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_produto_fornecedor_for_cod" Association="Self.FK_produto_fornecedor_for_cod">
+            <End Role="fornecedor" EntitySet="fornecedor" />
+            <End Role="produto" EntitySet="produto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CertSYSModelStoreContainer" CdmEntityContainer="CertSYSEntities">
+          <EntitySetMapping Name="fornecedor">
+            <EntityTypeMapping TypeName="CertSYSModel.fornecedor">
+              <MappingFragment StoreEntitySet="fornecedor">
+                <ScalarProperty Name="for_cod" ColumnName="for_cod" />
+                <ScalarProperty Name="for_nome" ColumnName="for_nome" />
+                <ScalarProperty Name="for_cnpj" ColumnName="for_cnpj" />
+                <ScalarProperty Name="for_endereco" ColumnName="for_endereco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produto">
+            <EntityTypeMapping TypeName="CertSYSModel.produto">
+              <MappingFragment StoreEntitySet="produto">
+                <ScalarProperty Name="pro_cod" ColumnName="pro_cod" />
+                <ScalarProperty Name="pro_nome" ColumnName="pro_nome" />
+                <ScalarProperty Name="pro_qtde" ColumnName="pro_qtde" />
+                <ScalarProperty Name="for_cod" ColumnName="for_cod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="CertSYSModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="usu_cod" ColumnName="usu_cod" />
+                <ScalarProperty Name="usu_nome" ColumnName="usu_nome" />
+                <ScalarProperty Name="usu_login" ColumnName="usu_login" />
+                <ScalarProperty Name="usu_senha" ColumnName="usu_senha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
